@@ -19,24 +19,15 @@ def usage():
     exit(0)
 
 
-def check_if_python(files):
-    
+def check_file_type(files):
+
     for file_to_check in files:
         p = subprocess.Popen(['file', file_to_check],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-        output, errors = p.communicate()
+        output, errors = p.communicate()    
+
         if b"Python" in output:
             files_to_check.append(file_to_check)
-
-    return(0)
-
-
-def check_if_bash(files):
-    
-    for file_to_check in files:
-        p = subprocess.Popen(['file', file_to_check],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-        output, errors = p.communicate()
-        
-        if b"shell" in output:
+        elif b"shell" in output:
             files_to_check.append(file_to_check)
         elif b"bash" in output:
             files_to_check.append(file_to_check)
@@ -44,7 +35,7 @@ def check_if_bash(files):
     return(0)
 
 
-def check_for_shebang(files):    
+def check_for_shebang(files):
     
     for file_to_check in files:
 
@@ -68,9 +59,7 @@ def main():
     global files_to_check
     files_to_check=[]
 
-    check_if_python(args)
-    check_if_bash(args)
-
+    check_file_type(args)
     check_for_shebang(files_to_check)
 
     print("[INFO] Checked {} files".format(len(files_to_check)))
