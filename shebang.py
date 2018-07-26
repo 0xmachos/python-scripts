@@ -26,7 +26,7 @@ def check_file_type(files):
 
     for file_to_check in files:
         p = subprocess.Popen(['file', file_to_check],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-        output, errors = p.communicate()    
+        output, errors = p.communicate()
 
         if b"Python" in output:
             files_to_check.append(file_to_check)
@@ -39,7 +39,7 @@ def check_file_type(files):
 
 
 def check_for_shebang(files):
-    
+
     for file_to_check in files:
 
         with open(file_to_check) as file:
