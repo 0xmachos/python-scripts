@@ -9,7 +9,7 @@ import sys
 import subprocess
 
 ## Globals
-global files_to_check
+files_to_check=[]
 
 # TODO: Use regex to match on subprocess output after colon
 # file output: filepath: type_info
@@ -58,8 +58,6 @@ def main():
     
     if len(args) == 0:
         usage()
-
-    files_to_check=[]
 
     check_file_type(args)
     check_for_shebang(files_to_check)
