@@ -8,6 +8,7 @@
 import sys
 import requests
 import json
+import hashlib
 
 
 def usage():
@@ -49,8 +50,25 @@ def sort_pwned_info(pwned_data):
         print("  {} : {}".format(breach['Title'], breach['BreachDate']))
 
 
-# def check_password(password):
+def check_password(password):
 
+    password_sha1 = hashlib.sha1(password.encode('utf-8')).hexdigest()
+    hash_prefix = password_sha1[:5]
+    local_hash_suffix = password_sha1[5:]
+
+    remote_hash_suffixes = []
+
+    url = "https://api.pwnedpasswords.com/range/{}".format(hash_prefix)
+    req = requests.get(url)
+
+    for password in req.content.decode('utf-8').strip().split():
+        remote_hash_suffixes.append(password.split(':', 1)[0])
+
+    for remote_suffix in remote_hash_suffixes:
+        if local_hash_suffix.upper() == remote_suffix:
+            return(0)
+
+    return(1)
 
 
 def main():
@@ -65,8 +83,11 @@ def main():
         pwned_data = check_pwned(input)
         if pwned_data:
             sort_pwned_info(pwned_data)
-    # else:
-    #     check_password(input)
+    else:
+        if check_password(input):
+            print("This password has been pwned!")
+        else: 
+            print("This password has not been pwned!")
 
     exit(0)
 
