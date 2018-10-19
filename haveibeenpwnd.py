@@ -39,12 +39,11 @@ def check_pwned(email):
 def sort_pwned_info(pwned_data):
     
     pwned_json = json.loads(pwned_data)
-    num_breaches = len(pwned_json)
 
-    if num_breaches > 1:
-        print("You've been pwned {} times!".format(num_breaches))
+    if len(pwned_json) > 1:
+        print("You've been pwned {} times!".format(len(pwned_json)))
     else:
-        print("You've been pwned {} time!".format(num_breaches))
+        print("You've been pwned {} time!".format(len(pwned_json)))
 
     for breach in pwned_json:
         print("  {} : {}".format(breach['Title'], breach['BreachDate']))
