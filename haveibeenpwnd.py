@@ -22,9 +22,7 @@ def usage():
 def check_pwned(email):
 
     url = "https://haveibeenpwned.com/api/v2/breachedaccount/{}".format(email)
-    user_agent = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1'
-
-    req = requests.get(url, headers={'User-Agent': user_agent})
+    req = requests.get(url)
 
     if req.status_code == 200:
         return req.content.decode('utf-8')
