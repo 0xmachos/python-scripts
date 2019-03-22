@@ -30,6 +30,9 @@ def check_pwned(email):
     elif req.status_code == 404:
         print("You've not been pwned!")
         exit(0)
+    elif req.status_code == 403:
+        print("Request Blocked ¯\\_(ツ)_/¯" )
+        exit(1)
     else: 
         print("Unknown Error")
         return 1
